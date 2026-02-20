@@ -1,0 +1,14 @@
+# IDEs
+.idea/
+.vscode/
+*.iml
+*.iws
+.DS_Store
+
+# Logs
+*.log
+logs/
+
+# Temp files
+*.tmp
+*.swp

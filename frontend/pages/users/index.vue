@@ -179,8 +179,8 @@ async function fetchUsers() {
     const data = await apiClient.get(`/users?${params.toString()}`)
 
     users.value = data.content
-    totalPages.value = data.totalPages
-    totalElements.value = data.totalElements
+    totalPages.value = data.page.totalPages
+    totalElements.value = data.page.totalElements
   } catch (err) {
     error.value = err.message || 'Failed to load users'
     console.error('Error fetching users:', err)

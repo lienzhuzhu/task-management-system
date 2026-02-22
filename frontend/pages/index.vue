@@ -52,8 +52,7 @@
           <div>
             <p class="text-gray-600 text-sm font-medium">Total Tasks</p>
             <p class="text-3xl font-bold text-gray-900 mt-2">
-              <!-- TODO: Display total tasks count here -->
-              <span class="text-gray-400">--</span>
+              {{ totalTasks }}
             </p>
           </div>
           <div class="bg-green-100 rounded-full p-3">
@@ -141,20 +140,15 @@ const apiClient = useApiClient()
 // State
 const loading = ref(true)
 const totalUsers = ref(0)
-// TODO: Add totalTasks state variable
+const totalTasks = ref(0)
 
 // Fetch dashboard data
 async function fetchDashboardData() {
   loading.value = true
 
   try {
-    // Fetch total users count
     totalUsers.value = await apiClient.get('/users/count')
-
-    // TODO: Fetch total tasks count
-    // Call: apiClient.get('/tasks/count')
-    // Store in totalTasks.value
-    // Reference: How totalUsers is fetched above
+    totalTasks.value = await apiClient.get('/tasks/count')
   } catch (err) {
     console.error('Error fetching dashboard data:', err)
   } finally {

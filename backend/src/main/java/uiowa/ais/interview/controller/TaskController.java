@@ -29,7 +29,7 @@ public class TaskController {
      *
      * POST /api/tasks
      * Request body: {
-     *                  "name": "Task Title",
+     *                  "title": "Task Title",
      *                  "description": "Task Description"
      *                  "status": "TODO",
      *                  "priority": "HIGH",
@@ -50,7 +50,7 @@ public class TaskController {
      * Update an existing task.
      *
      * PUT /api/tasks/{id}
-     * Request body: { "name": "Jane Doe", "email": "jane@example.com" }
+     * Request body: { "id": "0", "title": "Updated Task Title", "description": "Updated Description" }
      *
      * @param id  task ID
      * @param dto Updated task data (validated)

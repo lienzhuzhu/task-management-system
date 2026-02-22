@@ -109,7 +109,7 @@
         </NuxtLink>
 
         <NuxtLink
-          to="/tasks"
+          to="/tasks/create"
           class="bg-white rounded-lg shadow p-4 hover:shadow-md transition flex items-center space-x-3"
         >
           <div class="bg-green-100 rounded-full p-2">

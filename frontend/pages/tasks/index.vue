@@ -9,7 +9,7 @@
     <div class="mb-6 flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
       <!-- Filter -->
       <div class="w-full md:w-64">
-        <label for="nameFilter" class="block text-sm font-medium text-gray-700 mb-1">
+        <label for="statusFilter" class="block text-sm font-medium text-gray-700 mb-1">
           Filter by status
         </label>
         <input
@@ -56,13 +56,10 @@
               ID
             </th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Name
+              Title
             </th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Email
-            </th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Created At
+              Due Date
             </th>
             <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
               Actions
@@ -75,13 +72,10 @@
               {{ task.id }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-              {{ task.name }}
+              {{ task.title }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-              {{ task.email }}
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-              {{ formatDate(task.createdAt) }}
+              {{ formatDate(task.dueDate) }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
               <NuxtLink
@@ -120,7 +114,7 @@
       <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
         <h3 class="text-lg font-semibold mb-4">Confirm Delete</h3>
         <p class="text-gray-600 mb-6">
-          Are you sure you want to delete task <strong>{{ taskToDelete.name }}</strong>?
+          Are you sure you want to delete task <strong>{{ taskToDelete.title }}</strong>?
           This action cannot be undone.
         </p>
         <div class="flex justify-end space-x-3">
@@ -150,7 +144,7 @@ const apiClient = useApiClient()
 const tasks = ref([])
 const loading = ref(true)
 const error = ref(null)
-const nameFilter = ref('')
+const nameFilter = ref('') // TODO: modify
 const currentPage = ref(0)
 const totalPages = ref(0)
 const totalElements = ref(0)

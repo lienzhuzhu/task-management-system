@@ -7,7 +7,6 @@ import uiowa.ais.interview.entity.Task;
 import uiowa.ais.interview.entity.TaskStatus;
 import uiowa.ais.interview.entity.TaskPriority;
 
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -29,16 +28,16 @@ public class TaskDTO {
         @NotBlank(message = "Description is required")
         private String description;
 
-        @NotBlank(message = "Status is required")
+        @NotNull(message = "Status is required")
         private TaskStatus status;
 
-        @NotBlank(message = "Priority is required")
+        @NotNull(message = "Priority is required")
         private TaskPriority priority;
 
-        @NotBlank(message = "Due date is required")
+        @NotNull(message = "Due date is required")
         private LocalDate dueDate;
 
-        @NotBlank(message = "Assigned user is required")
+        @NotNull(message = "Assigned user is required")
         private User assignedUser;
 
         // Constructors

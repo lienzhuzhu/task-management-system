@@ -44,6 +44,7 @@
     </div>
 
     <!-- Tasks Table -->
+    <!--Show: title, assigned user name, status, priority, due date-->
     <div v-else class="bg-white rounded-lg shadow overflow-hidden">
       <div v-if="tasks.length === 0" class="text-center py-12 text-gray-500">
         No tasks found{{ statusFilter ? ' matching your filter' : '' }}.
@@ -52,11 +53,20 @@
       <table v-else class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">
           <tr>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> <!--TODO: remove-->
               ID
             </th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Title
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Assigned User
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Status
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Priority
             </th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Due Date
@@ -73,6 +83,15 @@
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
               {{ task.title }}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+              {{ task.assignedUser?.name || 'Unassigned' }}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+              {{ task.status }}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+              {{ task.priority }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
               {{ formatDate(task.dueDate) }}

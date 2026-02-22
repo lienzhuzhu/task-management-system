@@ -12,21 +12,13 @@
         <label for="statusFilter" class="block text-sm font-medium text-gray-700 mb-1">
           Filter by status
         </label>
-        <input
-          id="statusFilter"
-          v-model="statusFilter"
-          type="text"
-          placeholder="Search tasks by status..."
+        <input id="statusFilter" v-model="statusFilter" type="text" placeholder="Search tasks by status..."
           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          @input="handleFilterChange"
-        />
+          @input="handleFilterChange" />
       </div>
 
       <!-- Create Button -->
-      <NuxtLink
-        to="/tasks/create"
-        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-      >
+      <NuxtLink to="/tasks/create" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
         + Create Task
       </NuxtLink>
     </div>
@@ -53,7 +45,8 @@
       <table v-else class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">
           <tr>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> <!--TODO: remove-->
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <!--TODO: remove-->
               ID
             </th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -85,7 +78,7 @@
               {{ task.title }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-              {{ task.assignedUser?.name || 'Unassigned' }}
+              {{ task.user?.name || 'Unassigned' }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
               {{ task.status }}
@@ -97,16 +90,10 @@
               {{ formatDate(task.dueDate) }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-              <NuxtLink
-                :to="`/tasks/${task.id}`"
-                class="text-blue-600 hover:text-blue-900"
-              >
+              <NuxtLink :to="`/tasks/${task.id}`" class="text-blue-600 hover:text-blue-900">
                 Edit
               </NuxtLink>
-              <button
-                @click="confirmDelete(task)"
-                class="text-red-600 hover:text-red-900"
-              >
+              <button @click="confirmDelete(task)" class="text-red-600 hover:text-red-900">
                 Delete
               </button>
             </td>
@@ -115,21 +102,13 @@
       </table>
 
       <!-- Pagination -->
-      <Pagination
-        v-if="totalPages > 1"
-        :current-page="currentPage"
-        :total-pages="totalPages"
-        :total-elements="totalElements"
-        @page-changed="handlePageChange"
-      />
+      <Pagination v-if="totalPages > 1" :current-page="currentPage" :total-pages="totalPages"
+        :total-elements="totalElements" @page-changed="handlePageChange" />
     </div>
 
     <!-- Delete Confirmation Modal -->
-    <div
-      v-if="taskToDelete"
-      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-      @click.self="taskToDelete = null"
-    >
+    <div v-if="taskToDelete" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+      @click.self="taskToDelete = null">
       <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
         <h3 class="text-lg font-semibold mb-4">Confirm Delete</h3>
         <p class="text-gray-600 mb-6">
@@ -137,17 +116,11 @@
           This action cannot be undone.
         </p>
         <div class="flex justify-end space-x-3">
-          <button
-            @click="taskToDelete = null"
-            class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
-          >
+          <button @click="taskToDelete = null" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
             Cancel
           </button>
-          <button
-            @click="deleteTask"
-            :disabled="deleting"
-            class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50"
-          >
+          <button @click="deleteTask" :disabled="deleting"
+            class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50">
             {{ deleting ? 'Deleting...' : 'Delete' }}
           </button>
         </div>
@@ -194,6 +167,9 @@ async function fetchTasks() {
     tasks.value = data.content
     totalPages.value = data.page.totalPages
     totalElements.value = data.page.totalElements
+    console.log('Raw API response:', data)
+    console.log('First task:', data.content?.[0])
+    console.log('First task status:', data.content?.[0]?.status)
   } catch (err) {
     error.value = err.message || 'Failed to load tasks'
     console.error('Error fetching tasks:', err)

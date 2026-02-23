@@ -31,8 +31,8 @@ public class TaskController {
      * Request body: {
      *                  "title": "Task Title",
      *                  "description": "Task Description"
-     *                  "status": TaskStatus.TODO,
-     *                  "priority": TaskPriority.HIGH,
+     *                  "status": "TODO",
+     *                  "priority": "HIGH",
      *                  "dueDate": "2024-12-31",
      *                  "assignedUserId": 1
      *               }
@@ -53,8 +53,8 @@ public class TaskController {
      * Request body: { 
      *                  "title": "Updated Task Title",
      *                  "description": "Updated Description"
-     *                  "status": TaskStatus.IN_PROGRESS,
-     *                  "priority": TaskPriority.MEDIUM,
+     *                  "status": "IN_PROGRESS",
+     *                  "priority": "MEDIUM",
      *                  "dueDate": "2024-12-31",
      *                  "assignedUserId": 2
      *                }

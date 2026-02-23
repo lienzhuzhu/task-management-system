@@ -33,7 +33,7 @@ public class TaskController {
      *                  "description": "Task Description"
      *                  "status": "TODO",
      *                  "priority": "HIGH",
-     *                  "dueDate": "2024-12-31", /* NOTE: check the format
+     *                  "dueDate": "2024-12-31",
      *                  "assignedUserId": 1
      *               }
      *

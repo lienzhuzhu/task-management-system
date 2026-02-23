@@ -216,31 +216,18 @@ async function deleteTask() {
   }
 }
 
-// // Format date for display
-// function formatDate(dateString) {
-//   if (!dateString) return 'N/A'
-//   const date = new Date(dateString)
-//   return date.toLocaleDateString('en-US', {
-//     year: 'numeric',
-//     month: 'short',
-//     day: 'numeric',
-//   })
-// }
-
+// Format date for display
 function formatDate(dateString) {
   if (!dateString) return 'N/A'
-
-  // Create date in UTC
-  const [year, month, day] = dateString.split('-')
-  const utcDate = new Date(Date.UTC(year, month - 1, day))
-
-  return utcDate.toLocaleDateString('en-US', {
+  const date = new Date(dateString)
+  return date.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'short',
     day: 'numeric',
-    timeZone: 'UTC'
+    timeZone: 'UTC' // NOTE: Seems to fix off by one, but not sure if it will work across timezones...
   })
 }
+
 
 // Load tasks on mount
 onMounted(() => {

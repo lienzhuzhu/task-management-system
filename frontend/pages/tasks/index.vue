@@ -7,14 +7,20 @@
 
     <!-- Actions Bar -->
     <div class="mb-6 flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
+
       <!-- Filter -->
       <div class="w-full md:w-64">
         <label for="statusFilter" class="block text-sm font-medium text-gray-700 mb-1">
           Filter by status
         </label>
-        <input id="statusFilter" v-model="statusFilter" type="text" placeholder="Search tasks by status..."
+        <select id="statusFilter" v-model="statusFilter"
           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          @input="handleFilterChange" />
+          @change="handleFilterChange">
+          <option value="">All</option>
+          <option value="TODO">To Do</option>
+          <option value="IN_PROGRESS">In Progress</option>
+          <option value="DONE">Done</option>
+        </select>
       </div>
 
       <!-- Create Button -->
@@ -136,7 +142,7 @@ const apiClient = useApiClient()
 const tasks = ref([])
 const loading = ref(true)
 const error = ref(null)
-const nameFilter = ref('') // TODO: modify
+const statusFilter = ref('')
 const currentPage = ref(0)
 const totalPages = ref(0)
 const totalElements = ref(0)
@@ -157,9 +163,9 @@ async function fetchTasks() {
       size: pageSize.toString(),
     })
 
-    // Add name filter if provided
-    if (nameFilter.value.trim()) {
-      params.append('name', nameFilter.value.trim())
+    // Add status filter if provided
+    if (statusFilter.value.trim()) {
+      params.append('status', statusFilter.value.trim())
     }
 
     const data = await apiClient.get(`/tasks?${params.toString()}`)
@@ -175,14 +181,10 @@ async function fetchTasks() {
   }
 }
 
-// Handle filter change (debounced)
-let filterTimeout = null
+// Handle filter change
 function handleFilterChange() {
-  clearTimeout(filterTimeout)
-  filterTimeout = setTimeout(() => {
-    currentPage.value = 0 // Reset to first page when filter changes
-    fetchTasks()
-  }, 300) // 300ms debounce
+  currentPage.value = 0 // Reset to first page when filter changes
+  fetchTasks()
 }
 
 // Handle page change

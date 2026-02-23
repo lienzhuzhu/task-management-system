@@ -12,6 +12,8 @@ import uiowa.ais.interview.exception.ResourceNotFoundException;
 import uiowa.ais.interview.task.TaskDTO.CreateTaskDTO;
 import uiowa.ais.interview.task.TaskDTO.TaskResponseDTO;
 import uiowa.ais.interview.user.UserRepository;
+import uiowa.ais.interview.entity.TaskStatus;
+
 
 /**
  * Service layer for Task operations.
@@ -102,7 +104,7 @@ public class TaskService {
      * Get all tasks with pagination and optional status filter.
      * This demonstrates how to handle optional filters with pagination.
      *
-     * @param status Optional status filter (case-insensitive exact match)
+     * @param status Optional status filter
      * @param page Page number (0-based)
      * @param size Number of items per page
      * @return Page of tasks with metadata
@@ -116,7 +118,8 @@ public class TaskService {
 
         // If status filter is provided and not empty, use filtered query
         if (status != null && !status.trim().isEmpty()) {
-            taskPage = taskRepository.findByStatusIgnoreCase(status.trim(), pageable);
+            TaskStatus taskStatus = TaskStatus.valueOf(status.trim());
+            taskPage = taskRepository.findByStatus(taskStatus, pageable);
         } else {
             // Otherwise, get all tasks
             taskPage = taskRepository.findAll(pageable);

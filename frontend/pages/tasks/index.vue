@@ -17,9 +17,9 @@
           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           @change="handleFilterChange">
           <option value="">All</option>
-          <option value="TODO">To Do</option>
-          <option value="IN_PROGRESS">In Progress</option>
-          <option value="DONE">Done</option>
+          <option value="TODO">TODO</option>
+          <option value="IN_PROGRESS">IN PROGRESS</option>
+          <option value="DONE">DONE</option>
         </select>
       </div>
 
@@ -52,10 +52,6 @@
         <thead class="bg-gray-50">
           <tr>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              <!--TODO: remove-->
-              ID
-            </th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Title
             </th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -77,9 +73,6 @@
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
           <tr v-for="task in tasks" :key="task.id" class="hover:bg-gray-50">
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              {{ task.id }}
-            </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
               {{ task.title }}
             </td>

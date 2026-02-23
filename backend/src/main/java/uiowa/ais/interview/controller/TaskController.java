@@ -33,7 +33,7 @@ public class TaskController {
      *                  "description": "Task Description"
      *                  "status": TaskStatus.TODO,
      *                  "priority": TaskPriority.HIGH,
-     *                  "dueDate": LocalDate,
+     *                  "dueDate": "2024-12-31",
      *                  "assignedUserId": 1
      *               }
      *
@@ -51,12 +51,11 @@ public class TaskController {
      *
      * PUT /api/tasks/{id}
      * Request body: { 
-     *                  "id": "0",
      *                  "title": "Updated Task Title",
      *                  "description": "Updated Description"
      *                  "status": TaskStatus.IN_PROGRESS,
      *                  "priority": TaskPriority.MEDIUM,
-     *                  "dueDate": LocalDate,
+     *                  "dueDate": "2024-12-31",
      *                  "assignedUserId": 2
      *                }
      *

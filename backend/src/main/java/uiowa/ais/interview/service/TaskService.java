@@ -58,9 +58,6 @@ public class TaskService {
         Task task = taskRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Task not found with id: " + id));
 
-        // User user = userRepository.findById(dto.getAssignedUserId())
-        //         .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + dto.getAssignedUserId()));
-
         task.setTitle(dto.getTitle());
         task.setDescription(dto.getDescription());
         task.setStatus(dto.getStatus());

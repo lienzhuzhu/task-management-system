@@ -152,11 +152,7 @@ async function loadTask() {
     form.value.description = task.description
     form.value.status = task.status
     form.value.priority = task.priority
-
-    if (task.dueDate) {
-      form.value.dueDate = task.dueDate
-    }
-
+    form.value.dueDate = task.dueDate || ''
     form.value.assignedUserId = task.assignedUser?.id || ''
 
   } catch (err) {

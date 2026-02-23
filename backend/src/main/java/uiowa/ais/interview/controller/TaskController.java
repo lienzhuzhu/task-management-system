@@ -34,7 +34,7 @@ public class TaskController {
      *                  "status": "TODO",
      *                  "priority": "HIGH",
      *                  "dueDate": "2024-12-31", /* NOTE: check the format
-     *                  "assignedUser": "johndoe" /* NOTE: this is the name of the user, not the ID. The service layer will handle the lookup and association
+     *                  "assignedUserId": 1
      *               }
      *
      * @param dto Task data (validated)
@@ -50,7 +50,15 @@ public class TaskController {
      * Update an existing task.
      *
      * PUT /api/tasks/{id}
-     * Request body: { "id": "0", "title": "Updated Task Title", "description": "Updated Description" }
+     * Request body: { 
+     *                  "id": "0",
+     *                  "title": "Updated Task Title",
+     *                  "description": "Updated Description"
+     *                  "status": "IN_PROGRESS",
+     *                  "priority": "MEDIUM",
+     *                  "dueDate": "2024-11-30", /* NOTE: check the format
+     *                  "assignedUserId": 2
+     *                }
      *
      * @param id  task ID
      * @param dto Updated task data (validated)

@@ -56,7 +56,7 @@ public class TaskController {
      *                  "description": "Updated Description"
      *                  "status": "IN_PROGRESS",
      *                  "priority": "MEDIUM",
-     *                  "dueDate": "2024-11-30", /* NOTE: check the format
+     *                  "dueDate": "2024-11-30",
      *                  "assignedUserId": 2
      *                }
      *

@@ -7,9 +7,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uiowa.ais.interview.entity.Task;
+import uiowa.ais.interview.entity.User;
 import uiowa.ais.interview.exception.ResourceNotFoundException;
 import uiowa.ais.interview.task.TaskDTO.CreateTaskDTO;
 import uiowa.ais.interview.task.TaskDTO.TaskResponseDTO;
+import uiowa.ais.interview.user.UserRepository;
 
 /**
  * Service layer for Task operations.
@@ -20,9 +22,11 @@ import uiowa.ais.interview.task.TaskDTO.TaskResponseDTO;
 public class TaskService {
 
     private final TaskRepository taskRepository;
+    private final UserRepository userRepository;
 
-    public TaskService(TaskRepository taskRepository) {
+    public TaskService(TaskRepository taskRepository, UserRepository userRepository) {
         this.taskRepository = taskRepository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -32,7 +36,10 @@ public class TaskService {
      * @return Created task with ID and timestamps
      */
     public TaskResponseDTO createTask(CreateTaskDTO dto) {
-        Task task = dto.toEntity();
+        User user = userRepository.findById(dto.getAssignedUserId())
+            .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + dto.getAssignedUserId()));
+        
+        Task task = dto.toEntity(user);
         Task savedTask = taskRepository.save(task);
         return TaskResponseDTO.fromEntity(savedTask);
     }
@@ -49,12 +56,16 @@ public class TaskService {
         Task task = taskRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Task not found with id: " + id));
 
+        // User user = userRepository.findById(dto.getAssignedUserId())
+        //         .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + dto.getAssignedUserId()));
+
         task.setTitle(dto.getTitle());
         task.setDescription(dto.getDescription());
         task.setStatus(dto.getStatus());
         task.setPriority(dto.getPriority());
         task.setDueDate(dto.getDueDate());
-        task.setUser(dto.getAssignedUser());
+        task.setUser(userRepository.findById(dto.getAssignedUserId())
+            .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + dto.getAssignedUserId())));
 
         Task updatedTask = taskRepository.save(task);
         return TaskResponseDTO.fromEntity(updatedTask);

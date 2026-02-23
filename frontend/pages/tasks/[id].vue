@@ -1,3 +1,4 @@
+<!-- [id].vue -->
 <template>
   <div class="container mx-auto px-4 py-8 max-w-2xl">
     <div class="mb-6">
@@ -24,18 +25,75 @@
 
     <!-- Task Form -->
     <form v-else @submit.prevent="handleSubmit" class="bg-white rounded-lg shadow p-6">
+
       <!-- Title Field -->
       <div class="mb-4">
         <label for="title" class="block text-sm font-medium text-gray-700 mb-1">
           Title <span class="text-red-500">*</span>
         </label>
-        <input id="title" v-model="form.title" type="text" required maxlength="100"
+        <input id="title" v-model="form.title" type="text" required
           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           :class="{ 'border-red-500': validationErrors.title }" placeholder="Enter task title" />
         <p v-if="validationErrors.title" class="mt-1 text-sm text-red-600">
           {{ validationErrors.title }}
         </p>
       </div>
+
+      <!-- Description Field -->
+      <div class="mb-4">
+        <label for="description" class="block text-sm font-medium text-gray-700 mb-1">
+          Description <span class="text-red-500">*</span>
+        </label>
+        <textarea id="description" v-model="form.description" rows="3" required
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          placeholder="Enter task description"></textarea>
+      </div>
+
+      <!-- Status Field -->
+      <div class="mb-4">
+        <label for="status" class="block text-sm font-medium text-gray-700 mb-1">
+          Status <span class="text-red-500">*</span>
+        </label>
+        <select id="status" v-model="form.status"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+          <option value="TODO">To Do</option>
+          <option value="IN_PROGRESS">In Progress</option>
+          <option value="DONE">Done</option>
+        </select>
+      </div>
+
+      <!-- Priority Field -->
+      <div class="mb-4">
+        <label for="priority" class="block text-sm font-medium text-gray-700 mb-1">
+          Priority <span class="text-red-500">*</span>
+        </label>
+        <select id="priority" v-model="form.priority"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+          <option value="LOW">Low</option>
+          <option value="MEDIUM">Medium</option>
+          <option value="HIGH">High</option>
+        </select>
+      </div>
+
+      <!-- Due Date Field -->
+      <div class="mb-4">
+        <label for="dueDate" class="block text-sm font-medium text-gray-700 mb-1">
+          Due Date <span class="text-red-500">*</span>
+        </label>
+        <input id="dueDate" v-model="form.dueDate" type="date" required
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+      </div>
+
+      <!-- Assigned User Field -->
+      <div class="mb-4">
+        <label for="assignedUserId" class="block text-sm font-medium text-gray-700 mb-1">
+          Assigned User ID <span class="text-red-500">*</span>
+        </label>
+        <input id="assignedUserId" v-model="form.assignedUserId" type="text" required
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          placeholder="Enter assigned user's ID" />
+      </div>
+
 
       <!-- Form Actions -->
       <div class="flex justify-end space-x-3">
@@ -48,6 +106,7 @@
         </button>
       </div>
     </form>
+
   </div>
 </template>
 
@@ -58,10 +117,14 @@ const route = useRoute()
 
 const taskId = route.params.id
 
-// State
+// Form state
 const form = ref({
   title: '',
   description: '',
+  status: 'TODO',
+  priority: 'MEDIUM',
+  dueDate: '',
+  assignedUserId: ''
 })
 
 const loading = ref(true)
@@ -69,15 +132,24 @@ const submitting = ref(false)
 const error = ref(null)
 const validationErrors = ref({})
 
-// Load task data
 async function loadTask() {
   loading.value = true
   error.value = null
 
   try {
     const task = await apiClient.get(`/tasks/${taskId}`)
+
     form.value.title = task.title
     form.value.description = task.description
+    form.value.status = task.status
+    form.value.priority = task.priority
+
+    if (task.dueDate) {
+      form.value.dueDate = task.dueDate
+    }
+
+    form.value.assignedUserId = task.assignedUser?.id || ''
+
   } catch (err) {
     error.value = err.message || 'Failed to load task'
     console.error('Error loading task:', err)

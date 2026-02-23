@@ -40,7 +40,7 @@ public class TaskDTO {
         private LocalDate dueDate;
 
         @NotNull(message = "Assigned user is required")
-        private User assignedUser;
+        private Long assignedUserId;
 
         // Constructors
         public CreateTaskDTO() {
@@ -51,13 +51,13 @@ public class TaskDTO {
                                 TaskStatus status,
                                 TaskPriority priority,
                                 LocalDate dueDate,
-                                User assignedUser) {
+                                Long assignedUserId) {
             this.title = title;
             this.description = description;
             this.status = status;
             this.priority = priority;
             this.dueDate = dueDate;
-            this.assignedUser = assignedUser;
+            this.assignedUserId = assignedUserId;
         }
 
         // Getters and Setters
@@ -101,20 +101,25 @@ public class TaskDTO {
             this.dueDate = dueDate;
         }
 
-        public User getAssignedUser() {
-            return assignedUser;
+        public Long getAssignedUserId() {
+            return assignedUserId;
         }
 
-        public void setAssignedUser(User assignedUser) {
-            this.assignedUser = assignedUser;
+        public void setAssignedUserId(Long userId) {
+            this.assignedUserId = userId;
         }
 
         /**
          * Convert DTO to Entity.
          * Used when creating a new task from the API request.
          */
-        public Task toEntity() {
-            return new Task(this.title, this.description, this.status, this.priority, this.dueDate, this.assignedUser);
+        public Task toEntity(User user) {
+            return new Task(this.title, 
+                            this.description,
+                            this.status,
+                            this.priority,
+                            this.dueDate,
+                            user);
         }
     }
 
@@ -129,7 +134,7 @@ public class TaskDTO {
         private TaskStatus status;
         private TaskPriority priority;
         private LocalDate dueDate;
-        private UserResponseDTO user;
+        private UserResponseDTO assignedUser;
         private LocalDateTime createdAt;
 
         // Constructors
@@ -150,7 +155,7 @@ public class TaskDTO {
             this.status = status;
             this.priority = priority;
             this.dueDate = dueDate;
-            this.user = UserResponseDTO.fromEntity(user);
+            this.assignedUser = UserResponseDTO.fromEntity(user);
             this.createdAt = createdAt;
         }
 
@@ -169,14 +174,6 @@ public class TaskDTO {
 
         public void setTitle(String title) {
             this.title = title;
-        }
-
-        public LocalDateTime getCreatedAt() {
-            return createdAt;
-        }
-
-        public void setCreatedAt(LocalDateTime createdAt) {
-            this.createdAt = createdAt;
         }
 
         public String getDescription() {
@@ -211,13 +208,22 @@ public class TaskDTO {
             this.dueDate = dueDate;
         }
 
-        public UserResponseDTO getUser() {
-            return user;
+        public UserResponseDTO getAssignedUser() {
+            return assignedUser;
         }
 
-        public void setUser(UserResponseDTO user) {
-            this.user = user;
+        public void setAssignedUser(UserResponseDTO assignedUser) {
+            this.assignedUser = assignedUser;
         }
+
+        public LocalDateTime getCreatedAt() {
+            return createdAt;
+        }
+
+        public void setCreatedAt(LocalDateTime createdAt) {
+            this.createdAt = createdAt;
+        }
+
 
         /**
          * Convert Entity to DTO.

@@ -78,7 +78,7 @@
               {{ task.title }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-              {{ task.user?.name || 'Unassigned' }}
+              {{ task.assignedUser?.name || 'Unassigned' }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
               {{ task.status }}
@@ -167,9 +167,6 @@ async function fetchTasks() {
     tasks.value = data.content
     totalPages.value = data.page.totalPages
     totalElements.value = data.page.totalElements
-    console.log('Raw API response:', data)
-    console.log('First task:', data.content?.[0])
-    console.log('First task status:', data.content?.[0]?.status)
   } catch (err) {
     error.value = err.message || 'Failed to load tasks'
     console.error('Error fetching tasks:', err)
@@ -219,14 +216,29 @@ async function deleteTask() {
   }
 }
 
-// Format date for display
+// // Format date for display
+// function formatDate(dateString) {
+//   if (!dateString) return 'N/A'
+//   const date = new Date(dateString)
+//   return date.toLocaleDateString('en-US', {
+//     year: 'numeric',
+//     month: 'short',
+//     day: 'numeric',
+//   })
+// }
+
 function formatDate(dateString) {
   if (!dateString) return 'N/A'
-  const date = new Date(dateString)
-  return date.toLocaleDateString('en-US', {
+
+  // Create date in UTC
+  const [year, month, day] = dateString.split('-')
+  const utcDate = new Date(Date.UTC(year, month - 1, day))
+
+  return utcDate.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'short',
     day: 'numeric',
+    timeZone: 'UTC'
   })
 }
 

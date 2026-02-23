@@ -8,48 +8,90 @@
     </div>
 
     <!-- Error Message -->
-    <div
-      v-if="error"
-      class="mb-6 bg-red-50 border border-red-200 rounded-lg p-4 text-red-800"
-    >
+    <div v-if="error" class="mb-6 bg-red-50 border border-red-200 rounded-lg p-4 text-red-800">
       <p class="font-semibold">Error creating task</p>
       <p class="text-sm">{{ error }}</p>
     </div>
 
     <!-- Task Form -->
     <form @submit.prevent="handleSubmit" class="bg-white rounded-lg shadow p-6">
+
       <!-- Title Field -->
       <div class="mb-4">
         <label for="title" class="block text-sm font-medium text-gray-700 mb-1">
           Title <span class="text-red-500">*</span>
         </label>
-        <input
-          id="title"
-          v-model="form.title"
-          type="text"
-          required
+        <input id="title" v-model="form.title" type="text" required
           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          :class="{ 'border-red-500': validationErrors.title }"
-          placeholder="Enter task title"
-        />
+          :class="{ 'border-red-500': validationErrors.title }" placeholder="Enter task title" />
         <p v-if="validationErrors.title" class="mt-1 text-sm text-red-600">
           {{ validationErrors.title }}
         </p>
       </div>
 
+      <!-- Description Field -->
+      <div class="mb-4">
+        <label for="description" class="block text-sm font-medium text-gray-700 mb-1">
+          Description <span class="text-red-500">*</span>
+        </label>
+        <textarea id="description" v-model="form.description" rows="3" required
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          placeholder="Enter task description"></textarea>
+      </div>
+
+      <!-- Status Field -->
+      <div class="mb-4">
+        <label for="status" class="block text-sm font-medium text-gray-700 mb-1">
+          Status <span class="text-red-500">*</span>
+        </label>
+        <select id="status" v-model="form.status"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+          <option value="TODO">To Do</option>
+          <option value="IN_PROGRESS">In Progress</option>
+          <option value="DONE">Done</option>
+        </select>
+      </div>
+
+      <!-- Priority Field -->
+      <div class="mb-4">
+        <label for="priority" class="block text-sm font-medium text-gray-700 mb-1">
+          Priority <span class="text-red-500">*</span>
+        </label>
+        <select id="priority" v-model="form.priority"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+          <option value="LOW">Low</option>
+          <option value="MEDIUM">Medium</option>
+          <option value="HIGH">High</option>
+        </select>
+      </div>
+
+      <!-- Due Date Field -->
+      <div class="mb-4">
+        <label for="dueDate" class="block text-sm font-medium text-gray-700 mb-1">
+          Due Date <span class="text-red-500">*</span>
+        </label>
+        <input id="dueDate" v-model="form.dueDate" type="date" required
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+      </div>
+
+      <!-- Assigned User Field -->
+      <div class="mb-4">
+        <label for="assignedUserId" class="block text-sm font-medium text-gray-700 mb-1">
+          Assigned User ID <span class="text-red-500">*</span>
+        </label>
+        <input id="assignedUserId" v-model="form.assignedUserId" type="text" required
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          placeholder="Enter assigned user's ID" />
+      </div>
+
+
       <!-- Form Actions -->
       <div class="flex justify-end space-x-3">
-        <NuxtLink
-          to="/tasks"
-          class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
-        >
+        <NuxtLink to="/tasks" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
           Cancel
         </NuxtLink>
-        <button
-          type="submit"
-          :disabled="submitting"
-          class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
+        <button type="submit" :disabled="submitting"
+          class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed">
           {{ submitting ? 'Creating...' : 'Create Task' }}
         </button>
       </div>
@@ -64,6 +106,11 @@ const router = useRouter()
 // Form state
 const form = ref({
   title: '',
+  description: '',
+  status: 'TODO',
+  priority: 'MEDIUM',
+  dueDate: '',
+  assignedUserId: ''
 })
 
 const submitting = ref(false)
@@ -79,6 +126,21 @@ async function handleSubmit() {
   // Client-side validation
   if (!form.value.title.trim()) {
     validationErrors.value.title = 'Title is required'
+    return
+  }
+
+  if (!form.value.description.trim()) {
+    validationErrors.value.description = 'Description is required'
+    return
+  }
+
+  if (!form.value.dueDate) {
+    validationErrors.value.dueDate = 'Due date is required'
+    return
+  }
+
+  if (!form.value.assignedUserId.trim()) {
+    validationErrors.value.assignedUserId = 'Assigned user ID is required'
     return
   }
 

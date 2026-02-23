@@ -37,6 +37,9 @@
         <textarea id="description" v-model="form.description" rows="3" required
           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           placeholder="Enter task description"></textarea>
+        <p v-if="validationErrors.description" class="mt-1 text-sm text-red-600">
+          {{ validationErrors.description }}
+        </p>
       </div>
 
       <!-- Status Field -->
@@ -72,6 +75,9 @@
         </label>
         <input id="dueDate" v-model="form.dueDate" type="date" required
           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+        <p v-if="validationErrors.dueDate" class="mt-1 text-sm text-red-600">
+          {{ validationErrors.dueDate }}
+        </p>
       </div>
 
       <!-- Assigned User Field -->
@@ -82,6 +88,9 @@
         <input id="assignedUserId" v-model="form.assignedUserId" type="text" required
           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           placeholder="Enter assigned user's ID" />
+        <p v-if="validationErrors.assignedUserId" class="mt-1 text-sm text-red-600">
+          {{ validationErrors.assignedUserId }}
+        </p>
       </div>
 
 
@@ -116,7 +125,7 @@ const form = ref({
 const submitting = ref(false)
 const error = ref(null)
 const validationErrors = ref({})
-console.log('here...')
+
 // Handle form submission
 async function handleSubmit() {
   // Reset errors
@@ -129,8 +138,18 @@ async function handleSubmit() {
     return
   }
 
+  if (form.value.title.length > 100) {
+    validationErrors.value.title = 'Title must not exceed 100 characters'
+    return
+  }
+
   if (!form.value.description.trim()) {
     validationErrors.value.description = 'Description is required'
+    return
+  }
+
+  if (form.value.description.length > 1000) {
+    validationErrors.value.description = 'Description must not exceed 1000 characters'
     return
   }
 

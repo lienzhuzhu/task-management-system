@@ -28,6 +28,7 @@ public class TaskDTO {
         private String title;
 
         @NotBlank(message = "Description is required")
+        @Size(max = 1000, message = "Description must not exceed 1000 characters")
         private String description;
 
         @NotNull(message = "Status is required")

@@ -153,7 +153,7 @@ async function loadTask() {
     form.value.status = task.status
     form.value.priority = task.priority
     form.value.dueDate = task.dueDate || ''
-    form.value.assignedUserId = task.assignedUser?.id || ''
+    form.value.assignedUserId = task.assignedUser?.id?.toString() || ''
 
   } catch (err) {
     error.value = err.message || 'Failed to load task'

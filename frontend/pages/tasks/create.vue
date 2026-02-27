@@ -21,7 +21,7 @@
         <label for="title" class="block text-sm font-medium text-gray-700 mb-1">
           Title <span class="text-red-500">*</span>
         </label>
-        <input id="title" v-model="form.title" type="text" required
+        <input id="title" v-model="form.title" type="text"
           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           :class="{ 'border-red-500': validationErrors.title }" placeholder="Enter task title" />
         <p v-if="validationErrors.title" class="mt-1 text-sm text-red-600">
@@ -34,9 +34,9 @@
         <label for="description" class="block text-sm font-medium text-gray-700 mb-1">
           Description <span class="text-red-500">*</span>
         </label>
-        <textarea id="description" v-model="form.description" rows="3" required
+        <textarea id="description" v-model="form.description" rows="3"
           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          placeholder="Enter task description"></textarea>
+          :class="{ 'border-red-500': validationErrors.description }" placeholder="Enter task description"></textarea>
         <p v-if="validationErrors.description" class="mt-1 text-sm text-red-600">
           {{ validationErrors.description }}
         </p>
@@ -73,8 +73,9 @@
         <label for="dueDate" class="block text-sm font-medium text-gray-700 mb-1">
           Due Date <span class="text-red-500">*</span>
         </label>
-        <input id="dueDate" v-model="form.dueDate" type="date" required
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+        <input id="dueDate" v-model="form.dueDate" type="date"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          :class="{ 'border-red-500': validationErrors.dueDate }" placeholder="Task due date" />
         <p v-if="validationErrors.dueDate" class="mt-1 text-sm text-red-600">
           {{ validationErrors.dueDate }}
         </p>
@@ -85,9 +86,9 @@
         <label for="assignedUserId" class="block text-sm font-medium text-gray-700 mb-1">
           Assigned User ID <span class="text-red-500">*</span>
         </label>
-        <input id="assignedUserId" v-model="form.assignedUserId" type="text" required
+        <input id="assignedUserId" v-model="form.assignedUserId" type="text"
           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          placeholder="Enter assigned user's ID" />
+          :class="{ 'border-red-500': validationErrors.assignedUserId }" placeholder="Enter assigned user's ID" />
         <p v-if="validationErrors.assignedUserId" class="mt-1 text-sm text-red-600">
           {{ validationErrors.assignedUserId }}
         </p>
